@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 195 5% 95%;
+    --foreground: 222 47% 11%;
+    --card: 195 5% 95%;
+    --card-foreground: 222 47% 11%;
+    --popover: 195 5% 95%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 195 5% 95%;
+    --secondary: 195 5% 90%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 195 5% 90%;
+    --muted-foreground: 222 47% 40%;
+    --accent: 195 5% 90%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 195 5% 95%;
+    --border: 195 5% 85%;
+    --input: 195 5% 85%;
+    --ring: 222 47% 11%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 210 29% 24%;
+    --foreground: 195 5% 95%;
+    --card: 210 29% 24%;
+    --card-foreground: 195 5% 95%;
+    --popover: 210 29% 24%;
+    --popover-foreground: 195 5% 95%;
+    --primary: 195 5% 95%;
+    --primary-foreground: 210 29% 24%;
+    --secondary: 210 29% 29%;
+    --secondary-foreground: 195 5% 95%;
+    --muted: 210 29% 29%;
+    --muted-foreground: 195 5% 70%;
+    --accent: 210 29% 29%;
+    --accent-foreground: 195 5% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 195 5% 95%;
+    --border: 210 29% 29%;
+    --input: 210 29% 29%;
+    --ring: 195 5% 85%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Font classes using CSS variables */
+  .font-montserrat {
+    font-family: var(--font-montserrat), sans-serif;
+  }
+
+  .font-playfair {
+    font-family: var(--font-playfair), serif;
+  }
+
+  .font-poppins {
+    font-family: var(--font-poppins), sans-serif;
+  }
+
+  .font-ptserif {
+    font-family: var(--font-ptserif), serif;
+  }
+
+  .font-caveat {
+    font-family: var(--font-caveat), cursive;
+  }
+
+  /* Default typography */
+  h1,
+  h2,
+  h3 {
+    @apply font-montserrat font-bold tracking-tight;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-playfair font-bold;
+  }
+
+  p {
+    @apply font-ptserif;
+  }
+
+  button,
+  a {
+    @apply font-poppins;
+  }
+
+  .font-handwriting {
+    @apply font-caveat;
+  }
+}
+
+/* Optimized animations for mobile */
+@media (max-width: 768px) {
+  .animate-bounce {
+    animation-duration: 1.5s;
+  }
+
+  .transition-transform {
+    transition-duration: 0.2s;
+  }
+}
+
+/* Optimized image loading */
+img {
+  content-visibility: auto;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

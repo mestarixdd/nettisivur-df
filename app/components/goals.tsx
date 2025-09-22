@@ -18,7 +18,7 @@ export default function Goals() {
     },
     {
       id: 3,
-      title: "200m SE 20,44s",
+      title: "200m SE 20,45s",
       icon: "🥇",
     },
   ]

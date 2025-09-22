@@ -35,21 +35,20 @@ export default function Hero() {
     // Mobiiliversiossa käytetään vähemmän partikkeleita ja ei animaatiota
     if (onMobiili) {
       // Piirrä staattiset partikkelit mobiiliversiossa - vähemmän partikkeleita
-      const partikkeliMaara = 70 // Kasvatettu määrä (aiemmin 15)
+      const partikkeliMaara = 70
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       for (let i = 0; i < partikkeliMaara; i++) {
         const x = Math.random() * canvas.width
         const y = Math.random() * canvas.height
-        const koko = Math.random() * 0.8 + 0.1 // Pienempi koko
+        const koko = Math.random() * 0.8 + 0.1
 
-        ctx.fillStyle = "rgba(0, 0, 0, 0.3)" // Muutettu läpinäkyvyys samaksi kuin yhteystiedot-osiossa
+        ctx.fillStyle = "rgba(0, 0, 0, 0.3)"
         ctx.beginPath()
         ctx.arc(x, y, koko, 0, Math.PI * 2)
         ctx.fill()
       }
 
-      // Lisää resize-kuuntelija, mutta vain mobiilissa
       window.addEventListener("resize", resizeCanvas)
       return () => {
         window.removeEventListener("resize", resizeCanvas)
@@ -57,7 +56,7 @@ export default function Hero() {
     }
 
     // Työpöytäversiossa käytetään animoituja partikkeleita
-    const partikkeliMaara = 70 // Kasvatettu määrä (aiemmin 50)
+    const partikkeliMaara = 70
     const partikkelit: {
       x: number
       y: number
@@ -66,7 +65,6 @@ export default function Hero() {
       nopeusY: number
     }[] = []
 
-    // Yksinkertaistettu partikkeliluokka
     for (let i = 0; i < partikkeliMaara; i++) {
       partikkelit.push({
         x: Math.random() * canvas.width,
@@ -77,13 +75,11 @@ export default function Hero() {
       })
     }
 
-    // Optimoitu animaatiofunktio
     let animaatioId: number
     let viimeisinAika = 0
     const fps = 20
 
     function animoi(aikaleima: number) {
-      // Rajoitetaan päivitysnopeus
       const kulunutAika = aikaleima - viimeisinAika
 
       if (kulunutAika > fps) {
@@ -91,18 +87,15 @@ export default function Hero() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         for (const partikkeli of partikkelit) {
-          // Päivitä sijainti
           partikkeli.x += partikkeli.nopeusX
           partikkeli.y += partikkeli.nopeusY
 
-          // Yksinkertaistettu reunojen käsittely
           if (partikkeli.x > canvas.width) partikkeli.x = 0
           if (partikkeli.x < 0) partikkeli.x = canvas.width
           if (partikkeli.y > canvas.height) partikkeli.y = 0
           if (partikkeli.y < 0) partikkeli.y = canvas.height
 
-          // Piirrä partikkeli
-          ctx.fillStyle = "rgba(0, 0, 0, 0.5)" // Muutettu läpinäkyvyys samaksi kuin yhteystiedot-osiossa
+          ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
           ctx.beginPath()
           ctx.arc(partikkeli.x, partikkeli.y, partikkeli.koko, 0, Math.PI * 2)
           ctx.fill()
@@ -112,16 +105,13 @@ export default function Hero() {
       animaatioId = requestAnimationFrame(animoi)
     }
 
-    // Viivästetään animaation aloitusta hieman
     setTimeout(() => {
       animaatioId = requestAnimationFrame(animoi)
       setIsLoaded(true)
     }, 100)
 
-    // Lisää resize-kuuntelija
     window.addEventListener("resize", resizeCanvas)
 
-    // Siivoa animaatio ja event listener
     return () => {
       if (animaatioId) cancelAnimationFrame(animaatioId)
       window.removeEventListener("resize", resizeCanvas)
@@ -138,7 +128,7 @@ export default function Hero() {
     }
   }
 
-  // Kumppanit data - järjestetty vasemmalta oikealle: Bäck, Salamat, Vantaa, New Balance
+  // Kumppanit data
   const yhteistyokumppanit = [
     { id: 4, name: "Bäck Management", image: "/images/managment.png" },
     { id: 3, name: "Vantaan Salamat", image: "/images/salamat.jpg" },
@@ -146,11 +136,11 @@ export default function Hero() {
     { id: 1, name: "New Balance", image: "/images/nblogo.png" },
   ]
 
-  // Mobiiliversiossa käytetään yksinkertaisempaa rakennetta
+  // Mobiiliversio - Korjattu ja pienennetty
   if (onMobiili) {
     return (
-      <div className="relative w-full min-h-[100vh] overflow-hidden">
-        {/* Yksinkertaistettu tausta mobiilille */}
+      <div className="relative w-full min-h-screen overflow-hidden">
+        {/* Tausta */}
         <div className="absolute inset-0 z-0 bg-white">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
@@ -160,33 +150,34 @@ export default function Hero() {
           ></div>
         </div>
 
-        {/* Valkoinen häivytys alareunassa - yksinkertaistettu */}
+        {/* Valkoinen häivytys alareunassa */}
         <div
-          className="absolute bottom-0 left-0 right-0 z-[1] h-24"
+          className="absolute bottom-0 left-0 right-0 z-[1] h-20"
           style={{
             background: "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)",
           }}
         ></div>
 
-        {/* Partikkelit - staattinen versio mobiilille */}
+        {/* Partikkelit */}
         <canvas ref={canvasRef} className="absolute inset-0 z-[1]" />
 
-        {/* Sisältö */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-[70vh] pt-8 px-4">
-          <div className="text-center max-w-4xl">
-            <p className="text-base font-medium tracking-widest text-midnight uppercase mb-2 font-montserrat">
+        {/* Sisältö - Korjattu asettelu */}
+        <div className="relative z-10 flex flex-col min-h-screen pt-20 pb-8 px-4">
+          {/* Pääsisältö - keskitetty */}
+          <div className="flex-1 flex flex-col justify-center items-center text-center max-w-4xl mx-auto">
+            <p className="text-sm font-medium tracking-widest text-midnight uppercase mb-2 font-montserrat">
               PIKAJUOKSIJA
             </p>
 
-            <h1 className="text-5xl font-extrabold tracking-tight text-midnight mb-6 font-montserrat">RIKU ILLUKKA</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight text-midnight mb-4 font-montserrat">RIKU ILLUKKA</h1>
 
-            <p className="text-lg text-midnight mb-8 max-w-2xl mx-auto font-poppins">
+            <p className="text-base text-midnight mb-6 max-w-xl mx-auto font-poppins">
               Suomalainen <span className="font-bold">huippupikajuoksija</span>, tavoitteena
               <br />
               <span className="font-bold relative inline-block" style={{ color: "rgb(74, 107, 138)" }}>
                 Los Angelesin Olympialaiset 2028
                 <span
-                  className="absolute left-0 right-0 bottom-[-4px] h-[3px]"
+                  className="absolute left-0 right-0 bottom-[-4px] h-[2px]"
                   style={{
                     background: "#2C3E50",
                     borderRadius: "2px",
@@ -198,9 +189,9 @@ export default function Hero() {
               .
             </p>
 
-            {/* Optimoitu kuvakehys - käytetään tavallista img-tagia mobiilissa */}
-            <div className="relative mx-auto max-w-3xl mb-8">
-              <div className="p-[3px] bg-black rounded-md">
+            {/* Kuva - suurempi */}
+            <div className="relative mx-auto max-w-lg mb-6 w-full">
+              <div className="p-[2px] bg-black rounded-md">
                 <div className="p-[1px] bg-white rounded-sm">
                   <div className="overflow-hidden relative aspect-video">
                     <img
@@ -208,22 +199,22 @@ export default function Hero() {
                       alt="Riku Illukka"
                       className="object-cover object-center w-full h-full"
                       loading="eager"
-                      width={640}
-                      height={360}
+                      width={512}
+                      height={288}
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Kumppanit - yksinkertaistettu versio */}
-            <div className="mb-4">
-              <span className="text-sm text-midnight font-semibold font-poppins block mb-2">Matkassa mukana</span>
-              <div className="flex -space-x-4 justify-center">
+            {/* Kumppanit - pienempi */}
+            <div className="mb-6">
+              <span className="text-xs text-midnight font-semibold font-poppins block mb-2">Matkassa mukana</span>
+              <div className="flex -space-x-3 justify-center">
                 {yhteistyokumppanit.map((kumppani, index) => (
                   <div
                     key={kumppani.id}
-                    className="w-8 h-8 rounded-full overflow-hidden p-[1px] bg-black relative"
+                    className="w-6 h-6 rounded-full overflow-hidden p-[1px] bg-black relative"
                     title={kumppani.name}
                     style={{
                       zIndex: index,
@@ -235,8 +226,8 @@ export default function Hero() {
                           src={kumppani.image || "/placeholder.svg"}
                           alt={kumppani.name}
                           className="w-full h-full object-contain"
-                          width={32}
-                          height={32}
+                          width={24}
+                          height={24}
                         />
                       </div>
                     </div>
@@ -244,28 +235,27 @@ export default function Hero() {
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* "Lue lisää" -nappi */}
-            <div className="mt-4">
-              <Button
-                onClick={() => vieritaOsioon("tietoja")}
-                className="px-5 py-2 text-base bg-gradient-to-r from-amber-600 to-amber-500 text-white font-poppins font-semibold border-2 border-amber-400 rounded-md"
-              >
-                Lue lisää
-              </Button>
-            </div>
+          {/* "Lue lisää" -nappi - kiinnitetty pohjalle */}
+          <div className="flex justify-center pb-4">
+            <Button
+              onClick={() => vieritaOsioon("tietoja")}
+              className="px-6 py-2 text-sm bg-gradient-to-r from-amber-600 to-amber-500 text-white font-poppins font-semibold border-2 border-amber-400 rounded-md"
+            >
+              Lue lisää
+            </Button>
           </div>
         </div>
       </div>
     )
   }
 
-  // Työpöytäversio pysyy ennallaan
+  // Työpöytäversio - Korjattu ja pienennetty
   return (
-    <div className={`relative w-full overflow-hidden h-screen`}>
-      {/* Optimoitu tausta */}
+    <div className="relative w-full overflow-hidden min-h-screen">
+      {/* Tausta */}
       <div className="absolute inset-0 z-0">
-        {/* Taustakuva - yksinkertaistettu */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -273,7 +263,6 @@ export default function Hero() {
           }}
         ></div>
 
-        {/* Sininen overlay valkoiseen häivytyksellä - yksinkertaistettu */}
         <div
           className="absolute inset-0"
           style={{
@@ -283,9 +272,9 @@ export default function Hero() {
         ></div>
       </div>
 
-      {/* Valkoinen häivytys alareunassa - yksinkertaistettu */}
+      {/* Valkoinen häivytys alareunassa */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[1] h-32"
+        className="absolute bottom-0 left-0 right-0 z-[1] h-24"
         style={{
           background:
             "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.9) 80%, rgba(255, 255, 255, 1) 100%)",
@@ -295,11 +284,12 @@ export default function Hero() {
       {/* Partikkelit */}
       <canvas ref={canvasRef} className="absolute inset-0 z-[1]" />
 
-      {/* Sisältö */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
-        <div className="text-center max-w-4xl">
+      {/* Sisältö - Korjattu asettelu */}
+      <div className="relative z-10 flex flex-col min-h-screen pt-24 pb-8 px-4">
+        {/* Pääsisältö - keskitetty */}
+        <div className="flex-1 flex flex-col justify-center items-center text-center max-w-4xl mx-auto">
           <motion.p
-            className="text-base md:text-lg font-medium tracking-widest text-midnight uppercase mb-2 font-montserrat"
+            className="text-base font-medium tracking-widest text-midnight uppercase mb-2 font-montserrat"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -308,7 +298,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.h1
-            className="text-6xl font-extrabold tracking-tight text-midnight sm:text-7xl lg:text-8xl mb-6 font-montserrat relative"
+            className="text-5xl font-extrabold tracking-tight text-midnight sm:text-6xl mb-4 font-montserrat relative"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -317,7 +307,7 @@ export default function Hero() {
               color: "#2C3E50",
             }}
           >
-            {/* Pistekuvio tekstuuri overlay - näytetään vain työpöytäversiossa */}
+            {/* Pistekuvio tekstuuri overlay */}
             <span
               className="absolute inset-0 z-10 flex items-center justify-center"
               style={{
@@ -336,7 +326,7 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-midnight mb-10 max-w-2xl mx-auto font-poppins"
+            className="text-lg text-midnight mb-8 max-w-2xl mx-auto font-poppins"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -357,28 +347,23 @@ export default function Hero() {
             .
           </motion.p>
 
-          {/* Optimoitu kuvakehys - käytetään next/image */}
+          {/* Kuva - suurempi */}
           <motion.div
-            className="relative mx-auto max-w-3xl mb-10"
+            className="relative mx-auto max-w-3xl mb-8 w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
-            {/* Musta kehys */}
-            <div className="p-[4px] bg-black rounded-md">
-              {/* Valkoinen väli */}
+            <div className="p-[3px] bg-black rounded-md">
               <div className="p-[1px] bg-white rounded-sm">
                 <div className="overflow-hidden relative aspect-video">
                   <Image
                     src="/images/kansiriku.jpg"
                     alt="Riku Illukka"
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                    sizes="(max-width: 768px) 100vw, 1200px"
                     priority={true}
                     className="object-cover object-center"
-                    width={1200}
-                    height={675}
-                    loading="eager"
                     quality={85}
                   />
                 </div>
@@ -386,40 +371,25 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* "Lue lisää" -nappi - vain työpöytäversiossa */}
+          {/* Kumppanit-osio */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.1 }}
-            className="mt-6"
-          >
-            <Button
-              onClick={() => vieritaOsioon("tietoja")}
-              className="px-6 py-3 text-base md:px-8 md:py-4 md:text-lg bg-gradient-to-r from-amber-600 to-amber-500 text-white hover:from-amber-700 hover:to-amber-600 transition-colors font-poppins font-semibold border-2 border-amber-400 rounded-md"
-            >
-              Lue lisää
-            </Button>
-          </motion.div>
-
-          {/* Kumppanit-osio - näkyy vain työpöytäversiossa - yksinkertaistettu */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.3 }}
-            className="mt-10 flex items-center justify-center flex-wrap gap-2"
+            className="mb-6 flex items-center justify-center flex-wrap gap-2"
           >
             <div className="flex items-center">
-              <div className="flex -space-x-6 mr-3 relative">
+              <div className="flex -space-x-4 mr-3 relative">
                 {yhteistyokumppanit.map((kumppani, index) => (
                   <motion.div
                     key={kumppani.id}
-                    className="w-10 h-10 rounded-full overflow-hidden p-[2px] bg-black relative"
+                    className="w-8 h-8 rounded-full overflow-hidden p-[1px] bg-black relative"
                     title={kumppani.name}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 1.3 + index * 0.1 }}
+                    transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
                     style={{
-                      zIndex: index, // Asetetaan z-indeksi niin että oikealla oleva on päällimmäisenä
+                      zIndex: index,
                     }}
                   >
                     <div className="w-full h-full rounded-full p-[1px] bg-white">
@@ -428,13 +398,12 @@ export default function Hero() {
                           src={kumppani.image || "/placeholder.svg"}
                           alt={kumppani.name}
                           className="w-full h-full object-contain"
-                          width={40}
-                          height={40}
+                          width={32}
+                          height={32}
                           loading="lazy"
                         />
                       </div>
                     </div>
-                    {/* Poistetaan hover-tilan z-indeksi CSS */}
                   </motion.div>
                 ))}
               </div>
@@ -442,13 +411,28 @@ export default function Hero() {
                 className="text-sm text-midnight font-semibold font-poppins"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 1.7 }}
+                transition={{ duration: 0.8, delay: 1.5 }}
               >
                 Matkassa mukana
               </motion.span>
             </div>
           </motion.div>
         </div>
+
+        {/* "Lue lisää" -nappi - kiinnitetty pohjalle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.3 }}
+          className="flex justify-center pb-4"
+        >
+          <Button
+            onClick={() => vieritaOsioon("tietoja")}
+            className="px-8 py-3 text-base bg-gradient-to-r from-amber-600 to-amber-500 text-white hover:from-amber-700 hover:to-amber-600 transition-colors font-poppins font-semibold border-2 border-amber-400 rounded-md"
+          >
+            Lue lisää
+          </Button>
+        </motion.div>
       </div>
     </div>
   )
